@@ -10,23 +10,29 @@
         <span class="complete-box"></span> = Complete
       </span>
     </div>
+    <div class="legend">
+      <span>Right click to edit a title</span>
+    </div>
     <div class="todos">
       <div
-        @dblclick="onDBLClick(todo)"
         class="todo"
         v-for="todo in allTodos"
         :key="todo.id"
         v-bind:class="{'is-complete':todo.completed}"
+        @contextmenu.prevent="rClick(todo)"
+        @dblclick="onDBLClick(todo)"
       >
         {{todo.title}}
         <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
       </div>
+      <Modal ref="modal"></Modal>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Modal from "./Modal";
 
 export default {
   name: "Todos",
@@ -39,11 +45,21 @@ export default {
         completed: !todo.completed
       };
       this.updateTodo(updTodo);
+    },
+    rClick(todo) {
+      this.$refs.modal.title = todo.title;
+      this.$refs.modal.id = todo.id;
+      this.$refs.modal.completed = todo.completed;
+      let element = this.$refs.modal.$el;
+      $(element).modal("show");
     }
   },
   computed: mapGetters(["allTodos"]),
   created() {
     this.fetchTodos();
+  },
+  components: {
+    Modal
   }
 };
 </script>
