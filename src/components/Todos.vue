@@ -51,6 +51,7 @@ export default {
       this.$refs.modal.id = todo.id;
       this.$refs.modal.completed = todo.completed;
       let element = this.$refs.modal.$el;
+      // eslint-disable-next-line
       $(element).modal("show");
     }
   },
