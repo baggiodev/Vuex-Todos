@@ -49,6 +49,7 @@ export default {
         completed: this.completed
       };
       this.updateTodo(updTodo);
+      // eslint-disable-next-line
       $(this.$el).modal("hide");
     }
   }
